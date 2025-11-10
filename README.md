@@ -139,9 +139,32 @@ Frontend will run on `http://localhost:5173`
 
 ### Backend (.env)
 
-See `taskflow-backend/.env.example` for all required environment variables.
+**⚠️ IMPORTANT: Never commit your `.env` file! Always use `.env.example` as a template.**
 
-Key variables:
+1. Copy the example file:
+   ```bash
+   cd taskflow-backend
+   cp .env.example .env
+   ```
+
+2. **Generate secure passwords and secrets:**
+   - **Database Password**: Generate a strong password for MySQL
+   - **Redis Password**: Generate a strong password for Redis
+   - **JWT Secrets**: Generate 64-byte hex strings:
+     ```bash
+     node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+     ```
+   - Or use the provided script:
+     ```bash
+     ./scripts/generate-credentials.sh > .env
+     ```
+
+3. Edit `.env` and replace all placeholder values with your actual credentials:
+   - Replace `your_secure_password_here` with your MySQL password
+   - Replace `your_redis_password_here` with your Redis password
+   - Replace `your_64_byte_hex_secret_here` with generated JWT secrets
+
+**Key variables:**
 - `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` - MySQL configuration
 - `REDIS_HOST`, `REDIS_PORT`, `REDIS_PASSWORD` - Redis configuration
 - `JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET` - JWT secrets (64-byte hex strings)
